@@ -1,0 +1,230 @@
+tags:
+- name: auth
+  description: Auth API
+- name: KYC
+  description: KYC API
+- name: customer-data
+  description: Customer Data Management
+- name: portfolio
+  description: Customer portfolio
+- name: reporting
+  description: Customer reports
+
+paths:
+# [Auth]
+  /login:
+    post:
+      tags:
+        - auth
+      summary: To authenticate users
+      parameters:
+        - name: body
+          in: body
+          description: auth
+          required: true
+          schema:
+            $ref: '#/definitions/users'
+      responses:
+        200:
+          description: 'Success'
+        400:
+          description: 'Bad Request'
+        401:
+          description: 'Unauthorized'
+        500:
+          description: 'Server Error'
+
+  /signup:
+    post:
+      tags:
+        - auth
+      summary: To register users
+      parameters:
+        - name: body
+          in: body
+          description: auth
+          required: true
+          schema:
+            $ref: '#/definitions/users'
+      responses:
+        201:
+          description: 'Success'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Duplicated'
+        500:
+          description: 'Server Error'
+
+# KYC
+  /customer-kyc:
+    post:
+      tags:
+        - KYC
+      summary: To verify customers identify
+      parameters:
+        - $ref: '#/definitions/AuthorizationHeader'
+        - name: body
+          in: body
+          description: kyc
+          required: true
+          schema:
+            $ref: '#/definitions/identity'
+      responses:
+        200:
+          description: 'Success'
+        400:
+          description: 'Bad Request'
+        500:
+          description: 'Server Error'
+
+# Customer Data Management
+  /customers:
+    patch:
+      tags:
+        - customer-data
+      summary: To update customer data
+      parameters:
+        - $ref: '#/definitions/AuthorizationHeader'
+        - name: body
+          in: body
+          description: kyc
+          required: true
+          schema:
+            $ref: '#/definitions/identity'
+      responses:
+        200:
+          description: 'Success'
+        400:
+          description: 'Bad Request'
+        500:
+          description: 'Server Error'
+    get:
+      tags:
+        - customer-data
+      summary: To get customer data
+      parameters:
+        - $ref: '#/definitions/AuthorizationHeader'
+      responses:
+        200:
+          description: 'Success'
+        404:
+          description: 'Not found'
+        500:
+          description: 'Server Error'
+
+# Portfolio management
+  /portfolio:
+    get:
+      tags:
+        - portfolio
+      summary: To get customer portfolio
+      parameters:
+        - $ref: '#/definitions/AuthorizationHeader'
+      responses:
+        200:
+          description: 'Success'
+        404:
+          description: 'Not found'
+        500:
+          description: 'Server Error'
+
+# Reporting
+  /reporting:
+    get:
+      tags:
+        - reporting
+      summary: To get customer reports
+      parameters:
+        - $ref: '#/definitions/AuthorizationHeader'
+      responses:
+        200:
+          description: 'Success'
+        404:
+          description: 'Not found'
+        500:
+          description: 'Server Error'
+
+# Communication and customer service
+  /customer-service/report-issue:
+    post:
+      tags:
+        - customer-service
+      summary: To report issue
+      parameters:
+        - $ref: '#/definitions/AuthorizationHeader'
+        - name: body
+          in: body
+          description: kyc
+          required: true
+          schema:
+            $ref: '#/definitions/issue'
+      responses:
+        200:
+          description: 'Success'
+        400:
+          description: 'Bad Request'
+        500:
+          description: 'Server Error'
+
+
+# definitions
+definitions:
+  users:
+    type: object
+    required:
+        - email
+        - password
+    properties:
+      email:
+        type: string
+        description: user Email
+      password:
+        type: string
+        description: user Password
+  identity:
+    type: object
+    required:
+        - national_id
+        - full_name
+        - age
+        - address
+    properties:
+      national_id:
+        type: string
+        description: User national ID
+      full_name:
+        type: string
+        description: Full name
+      age:
+        type: number
+        description: user age
+      address:
+        type: string
+        description: User living address
+  issue:
+    type: object
+    required:
+        - name
+        - description
+    properties:
+      name:
+        type: string
+        description: User name
+      description:
+        type: string
+        description: Description of the issue
+      attachment:
+        type: string
+        description: Upload file
+  AuthorizationHeader:
+    name: authorization
+    in: header
+    description: Authorization token
+    schema:
+      type: string
+
+
+schemes:
+- https
+- http
