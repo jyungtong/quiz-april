@@ -2,6 +2,13 @@
 
 Backend app that held users' assets
 
+## Disclaimer / Limitation
+
+This app is not fully functional but instead most of the parts are mocked, the idea is to demonstrate the components of how a financial related app should looks like.
+I took the system design chance to demonstrate the flow and how the implementation should looks like.
+
+### More detailed explanation refer to [Section 4](../sec4/README.md#backend-app-flow-and-implementation)
+
 ## How to use it
 
 ### Local
@@ -41,4 +48,4 @@ src/
 └── utils
 ```
 
-## More detailed explanation refer to [Section 4](../sec4/README.md#backend-app-flow-and-implementation)
+
